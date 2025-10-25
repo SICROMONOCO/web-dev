@@ -1,31 +1,58 @@
+/**
+ * GitHub Auto Report Generator
+ * ----------------------------
+ * Scans TP folders (TP1, TP2, …), takes screenshots of index.html pages,
+ * and generates a PDF report with screenshots + metadata.
+ */
+
 const puppeteer = require('puppeteer');
 const fs = require('fs-extra');
 const markdownpdf = require('markdown-pdf');
 const path = require('path');
 
 (async () => {
-  // Detect all "TP" folders (TP1, TP2, TP3, ...)
-  const projects = fs.readdirSync('.').filter(f => /^TP\d+/.test(f));
-  const mdContent = [];
+  try {
+    console.log("🚀 Starting report generation...");
 
-  for (const dir of projects) {
-    const indexPath = path.join(dir, 'index.html');
-    if (!fs.existsSync(indexPath)) continue;
+    // Find all folders starting with "TP"
+    const projects = fs.readdirSync('.').filter(f => /^TP\d+/.test(f));
+    if (projects.length === 0) {
+      console.log("⚠️ No TP folders found (expected names like TP1, TP2...).");
+      process.exit(0);
+    }
 
-    console.log(`📸 Capturing screenshot for ${dir}...`);
+    const mdContent = [];
 
-    const browser = await puppeteer.launch({ headless: true });
-    const page = await browser.newPage();
-    await page.goto(`file://${process.cwd()}/${indexPath}`);
-    const screenshotPath = `${dir}_main.png`;
-    await page.screenshot({ path: screenshotPath, fullPage: true });
-    await browser.close();
+    for (const dir of projects) {
+      const indexPath = path.join(dir, 'index.html');
+      if (!fs.existsSync(indexPath)) {
+        console.log(`⚠️ Skipping ${dir}: no index.html found.`);
+        continue;
+      }
 
-    mdContent.push(`
+      console.log(`📸 Capturing screenshot for ${dir}...`);
+
+      // Launch headless browser
+      const browser = await puppeteer.launch({
+        headless: true,
+        args: ['--no-sandbox', '--disable-setuid-sandbox'],
+      });
+      const page = await browser.newPage();
+
+      // Load the local index.html
+      await page.goto(`file://${process.cwd()}/${indexPath}`, { waitUntil: 'networkidle0' });
+
+      // Capture screenshot
+      const screenshotPath = `${dir}_main.png`;
+      await page.screenshot({ path: screenshotPath, fullPage: true });
+      await browser.close();
+
+      // Append markdown section
+      mdContent.push(`
 # ${dir}
 
 ## Student Information
-- **Student(s) Name(s):**
+- **Student(s) Name(s): BILAL SIKI**
 
 ## Project Repository
 - **GitHub Link:** \`${process.env.GITHUB_SERVER_URL}/${process.env.GITHUB_REPOSITORY}\`
@@ -37,18 +64,19 @@ const path = require('path');
 ## Notes
 ---
 `);
+    }
+
+    // Write Markdown file
+    const markdown = mdContent.join('\n\n');
+    fs.writeFileSync('report.md', markdown);
+
+    console.log("🧾 Converting Markdown to PDF...");
+    markdownpdf().from('report.md').to('report.pdf', () => {
+      console.log("✅ Report generated successfully: report.pdf");
+    });
+
+  } catch (error) {
+    console.error("❌ Error generating report:", error);
+    process.exit(1);
   }
-
-  if (mdContent.length === 0) {
-    console.log('⚠️ No TP folders found with index.html files.');
-    process.exit(0);
-  }
-
-  const markdown = mdContent.join('\n\n');
-  fs.writeFileSync('report.md', markdown);
-
-  console.log('🧾 Converting Markdown to PDF...');
-  markdownpdf().from('report.md').to('report.pdf', () => {
-    console.log('✅ PDF report generated: report.pdf');
-  });
 })();
