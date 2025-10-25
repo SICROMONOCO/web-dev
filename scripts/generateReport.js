@@ -1,9 +1,9 @@
 /**
- * GitHub Auto Report Generator (No PhantomJS)
- * --------------------------------------------
- * - Detects all TP folders (TP1, TP2, ...)
- * - Takes screenshots of *every* .html file in each TP folder
- * - Builds a PDF report using Puppeteer (no markdown-pdf)
+ * GitHub Auto Report Generator (All HTML + Embedded Screenshots)
+ * --------------------------------------------------------------
+ * - Detects TP folders (TP1, TP2, …)
+ * - Captures all .html files in each TP folder
+ * - Embeds screenshots directly into a single PDF (no broken links)
  */
 
 const puppeteer = require("puppeteer");
@@ -24,7 +24,6 @@ const path = require("path");
     }
 
     const pdfSections = [];
-
     const browser = await puppeteer.launch({
       headless: true,
       args: ["--no-sandbox", "--disable-setuid-sandbox"],
@@ -42,15 +41,14 @@ const path = require("path");
 
       let section = `
 <h1>${dir}</h1>
-<h1>TP</h1>
 <h2>Student Information</h2>
 <ul>
-  <li><strong>Student(s) Name(s): bilal siki</strong></li>
+  <li><strong>Student(s) Name(s):</strong> BILAL SIKI</li>
 </ul>
 
 <h2>Project Repository</h2>
 <ul>
-  <li><strong>GitHub Link:</strong> <code>${process.env.GITHUB_SERVER_URL}/${process.env.GITHUB_REPOSITORY}</code></li>
+  <li><strong>GitHub Link:</strong> <a href="${process.env.GITHUB_SERVER_URL}/${process.env.GITHUB_REPOSITORY}" target="_blank">${process.env.GITHUB_SERVER_URL}/${process.env.GITHUB_REPOSITORY}</a></li>
 </ul>
 
 <h2>Project Output</h2>
@@ -67,8 +65,13 @@ const path = require("path");
         await page.screenshot({ path: screenshotPath, fullPage: true });
         await page.close();
 
-        console.log(`📸 Captured: ${screenshotPath}`);
-        section += `<h3>${file}</h3><img src="${screenshotPath}" style="max-width:100%;border:1px solid #ccc;margin-bottom:10px;">`;
+        const imageBase64 = fs.readFileSync(screenshotPath, {
+          encoding: "base64",
+        });
+        const imageTag = `<img src="data:image/png;base64,${imageBase64}" style="width:100%;border:1px solid #ccc;margin:10px 0;">`;
+
+        console.log(`📸 Captured and embedded: ${screenshotPath}`);
+        section += `<h3>${file}</h3>${imageTag}`;
       }
 
       section += `<h2>Notes</h2><hr>`;
@@ -86,8 +89,10 @@ const path = require("path");
   <style>
     body { font-family: Arial, sans-serif; margin: 40px; }
     h1 { color: #1e88e5; }
+    h2 { color: #333; }
+    h3 { margin-top: 20px; }
     img { display:block; margin:auto; }
-    hr { margin: 40px 0; }
+    hr { margin: 40px 0; border: 1px solid #ddd; }
   </style>
 </head>
 <body>
@@ -108,7 +113,7 @@ const path = require("path");
     await page.pdf({ path: "report.pdf", format: "A4", printBackground: true });
     await browser2.close();
 
-    console.log("✅ PDF report generated successfully: report.pdf");
+    console.log("✅ PDF report generated successfully with embedded screenshots!");
   } catch (error) {
     console.error("❌ Error generating report:", error);
     process.exit(1);
