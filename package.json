@@ -1,0 +1,13 @@
+{
+  "name": "webdev-report-generator",
+  "version": "1.0.0",
+  "main": "scripts/generateReport.js",
+  "scripts": {
+    "generate": "node scripts/generateReport.js"
+  },
+  "dependencies": {
+    "puppeteer": "^23.0.0",
+    "markdown-pdf": "^11.0.0",
+    "fs-extra": "^11.2.0"
+  }
+}
