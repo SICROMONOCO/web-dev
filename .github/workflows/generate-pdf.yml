@@ -27,7 +27,7 @@ jobs:
           npm install puppeteer markdown-pdf fs-extra
 
       - name: Generate Screenshots and PDF
-        run: node scriptes/generateReport.js
+        run: node scripts/generateReport.js
 
       - name: Create reports folder
         run: mkdir -p reports
