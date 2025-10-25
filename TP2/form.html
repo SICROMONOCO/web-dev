@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulaire de question</title>
+</head>
+
+<body>
+
+    <!-- ====================================================== -->
+    <!-- Page 2: Registration Form                              -->
+    <!-- ====================================================== -->
+    <div id="form-page">
+
+        <!-- Back Button as a simple link -->
+        <a href="index.html">&larr; Revenir à l'emploi du temps</a>
+
+        <!-- Static Form Title -->
+        <h2>Poser une question</h2>
+
+        <!-- 
+            NOTE: This form will submit its data, but without a server or 
+            JavaScript, it will just reload the page. 
+            The 'action' attribute could be set to a server endpoint.
+        -->
+        <form id="form-registration" action="" method="GET">
+            <div>
+                <!-- Nom -->
+                <div>
+                    <label for="nom">Nom</label><br>
+                    <input type="text" id="nom" name="nom" required>
+                </div>
+                <br>
+                <!-- Prénom -->
+                <div>
+                    <label for="prenom">Prénom</label><br>
+                    <input type="text" id="prenom" name="prenom" required>
+                </div>
+                <br>
+                <!-- Email -->
+                <div>
+                    <label for="email">Email</label><br>
+                    <input type="email" id="email" name="email" required pattern="[a-zA-Z0-9._%+-]+@gmail\.com$"
+                        title="L'email doit se terminer par @gmail.com">
+                    <p style="font-size: small; color: grey;"><i>Doit être une adresse @gmail.com</i></p>
+                </div>
+                <br>
+                <!-- Filier -->
+                <div>
+                    <label for="filier">Filier</label><br>
+                    <select id="filier" name="filier" required>
+                        <option value="" disabled selected>-- Choisissez votre filier --</option>
+                        <option value="CS">Cycle Supérieur (CS)</option>
+                        <option value="CI">Cycle d'Ingénieur (CI)</option>
+                        <option value="Autre">Autre</option>
+                    </select>
+                </div>
+                <br>
+                <!-- Question -->
+                <div>
+                    <label for="question">Question (Optionnel)</label><br>
+                    <textarea id="question" name="question" rows="4" cols="40"></textarea>
+                </div>
+            </div>
+            <br>
+            <!-- Action Buttons -->
+            <div>
+                <button type="reset" id="cancel-button">
+                    Annuler
+                </button>
+                <button type="submit">
+                    Envoyer
+                </button>
+            </div>
+        </form>
+    </div>
+
+</body>
+
+</html>

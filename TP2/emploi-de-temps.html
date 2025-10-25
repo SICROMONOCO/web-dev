@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CS - S3 Emploi du temps</title>
+    <style>
+        
+        a {
+            color: blue;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        a:hover {
+            color: darkblue;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ====================================================== -->
+    <!-- Page 1:  Emploi du temps                               -->
+    <!-- ====================================================== -->
+    <div id="schedule-page">
+        <h1>CS - S3 Emploi du temps (2025-2026 AU)</h1>
+
+        <table border="1" cellpadding="5" cellspacing="0">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>9h00-10h30</th>
+                    <th>10h35-12h05</th>
+                    <th>12h15-13h45</th>
+                    <th>13h50-15h20</th>
+                    <th>15h30-17h00</th>
+                    <th>17h05-18h35</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Note: Links now point to form.html -->
+                <!-- We pass the name in the URL, e.g., ?professor=Pr.+R.+Dakir -->
+                <tr>
+                    <td>Lundi</td>
+                    <td colspan="2">Sécurité Système<br>Salle 1<br>
+                        <!-- Note: Spaces are replaced with + or %20 for URLs -->
+                        <a href="form.html?professor=Pr.+R.+Dakir">Pr. R. Dakir</a>
+                    </td>
+                    <td></td>
+                    <td colspan="2">Systèmes et Réseaux III<br>Salle 1<br>
+                        <a href="form.html?professor=Pr.+R.+Dakir">Pr. R. Dakir</a>
+                    </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Mardi</td>
+                    <td>LE - Français<br>Salle 1<br>
+                        <a href="form.html?professor=Pr.+D.+Ahajji">Pr. D. Ahajji</a>
+                    </td>
+                    <td>Développement logiciel<br>Salle 1<br>
+                        <a href="form.html?professor=Pr.+Y.+Chawki">Pr. Y. Chawki</a>
+                    </td>
+                    <td>Développement logiciel<br>Salle 1<br>
+                        <a href="form.html?professor=Pr.+Y.+Chawki">Pr. Y. Chawki</a>
+                    </td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Mercredi</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Jeudi</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td colspan="2">POO<br>Salle 1<br>
+                        <a href="form.html?professor=Pr.+A.+El+Ouahhabi">Pr. A. El Ouahhabi</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Vendredi</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td colspan="2">Management 3<br>Salle 1<br>
+                        <a href="form.html?professor=Pr.+Hangour">Pr. Hangour</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Samedi</td>
+                    <td colspan="2">Technologie web<br>Salle 1<br>
+                        <a href="form.html?professor=Pr.+O.+Kamal">Pr. O. Kamal</a>
+                    </td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</body>
+
+</html>
