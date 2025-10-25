@@ -32,9 +32,6 @@ jobs:
       - name: Create reports folder
         run: mkdir -p reports
 
-      - name: Move PDF to reports folder
-        run: mv report.pdf reports/Report_$(date +'%Y-%m-%d_%H-%M-%S').pdf
-
       - name: Commit PDF to repository
         run: |
           git config --global user.name "github-actions[bot]"
