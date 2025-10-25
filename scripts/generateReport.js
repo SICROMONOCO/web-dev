@@ -1,80 +1,114 @@
 /**
- * GitHub Auto Report Generator
- * ----------------------------
- * Scans TP folders (TP1, TP2, …), takes screenshots of index.html pages,
- * and generates a PDF report with screenshots + metadata.
+ * GitHub Auto Report Generator (No PhantomJS)
+ * --------------------------------------------
+ * - Detects all TP folders (TP1, TP2, ...)
+ * - Takes screenshots of *every* .html file in each TP folder
+ * - Builds a PDF report using Puppeteer (no markdown-pdf)
  */
 
-const puppeteer = require('puppeteer');
-const fs = require('fs-extra');
-const markdownpdf = require('markdown-pdf');
-const path = require('path');
+const puppeteer = require("puppeteer");
+const fs = require("fs-extra");
+const path = require("path");
 
 (async () => {
   try {
     console.log("🚀 Starting report generation...");
 
-    // Find all folders starting with "TP"
-    const projects = fs.readdirSync('.').filter(f => /^TP\d+/.test(f));
+    const projects = fs
+      .readdirSync(".")
+      .filter((f) => /^TP\d+/i.test(f) && fs.lstatSync(f).isDirectory());
+
     if (projects.length === 0) {
-      console.log("⚠️ No TP folders found (expected names like TP1, TP2...).");
+      console.log("⚠️ No TP folders found (expected TP1, TP2, ...)");
       process.exit(0);
     }
 
-    const mdContent = [];
+    const pdfSections = [];
+
+    const browser = await puppeteer.launch({
+      headless: true,
+      args: ["--no-sandbox", "--disable-setuid-sandbox"],
+    });
 
     for (const dir of projects) {
-      const indexPath = path.join(dir, 'index.html');
-      if (!fs.existsSync(indexPath)) {
-        console.log(`⚠️ Skipping ${dir}: no index.html found.`);
+      const htmlFiles = fs
+        .readdirSync(dir)
+        .filter((file) => file.endsWith(".html"));
+
+      if (htmlFiles.length === 0) {
+        console.log(`⚠️ Skipping ${dir}: no HTML files found.`);
         continue;
       }
 
-      console.log(`📸 Capturing screenshot for ${dir}...`);
+      let section = `
+<h1>${dir}</h1>
+<h1>TP</h1>
+<h2>Student Information</h2>
+<ul>
+  <li><strong>Student(s) Name(s): bilal siki</strong></li>
+</ul>
 
-      // Launch headless browser
-      const browser = await puppeteer.launch({
-        headless: true,
-        args: ['--no-sandbox', '--disable-setuid-sandbox'],
-      });
-      const page = await browser.newPage();
+<h2>Project Repository</h2>
+<ul>
+  <li><strong>GitHub Link:</strong> <code>${process.env.GITHUB_SERVER_URL}/${process.env.GITHUB_REPOSITORY}</code></li>
+</ul>
 
-      // Load the local index.html
-      await page.goto(`file://${process.cwd()}/${indexPath}`, { waitUntil: 'networkidle0' });
+<h2>Project Output</h2>
+`;
 
-      // Capture screenshot
-      const screenshotPath = `${dir}_main.png`;
-      await page.screenshot({ path: screenshotPath, fullPage: true });
-      await browser.close();
+      for (const file of htmlFiles) {
+        const filePath = path.join(dir, file);
+        const page = await browser.newPage();
+        await page.goto(`file://${process.cwd()}/${filePath}`, {
+          waitUntil: "networkidle0",
+        });
 
-      // Append markdown section
-      mdContent.push(`
-# ${dir}
+        const screenshotPath = `${dir}_${file.replace(".html", "")}.png`;
+        await page.screenshot({ path: screenshotPath, fullPage: true });
+        await page.close();
 
-## Student Information
-- **Student(s) Name(s): BILAL SIKI**
+        console.log(`📸 Captured: ${screenshotPath}`);
+        section += `<h3>${file}</h3><img src="${screenshotPath}" style="max-width:100%;border:1px solid #ccc;margin-bottom:10px;">`;
+      }
 
-## Project Repository
-- **GitHub Link:** \`${process.env.GITHUB_SERVER_URL}/${process.env.GITHUB_REPOSITORY}\`
-
-## Project Output
-### Main Page(s) Screenshot
-![](${screenshotPath})
-
-## Notes
----
-`);
+      section += `<h2>Notes</h2><hr>`;
+      pdfSections.push(section);
     }
 
-    // Write Markdown file
-    const markdown = mdContent.join('\n\n');
-    fs.writeFileSync('report.md', markdown);
+    await browser.close();
 
-    console.log("🧾 Converting Markdown to PDF...");
-    markdownpdf().from('report.md').to('report.pdf', () => {
-      console.log("✅ Report generated successfully: report.pdf");
+    const htmlReport = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Web Dev Report</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 40px; }
+    h1 { color: #1e88e5; }
+    img { display:block; margin:auto; }
+    hr { margin: 40px 0; }
+  </style>
+</head>
+<body>
+  ${pdfSections.join("\n\n")}
+</body>
+</html>
+`;
+
+    fs.writeFileSync("report.html", htmlReport);
+
+    console.log("🧾 Generating PDF using Puppeteer...");
+    const browser2 = await puppeteer.launch({
+      headless: true,
+      args: ["--no-sandbox", "--disable-setuid-sandbox"],
     });
+    const page = await browser2.newPage();
+    await page.setContent(htmlReport, { waitUntil: "networkidle0" });
+    await page.pdf({ path: "report.pdf", format: "A4", printBackground: true });
+    await browser2.close();
 
+    console.log("✅ PDF report generated successfully: report.pdf");
   } catch (error) {
     console.error("❌ Error generating report:", error);
     process.exit(1);
