@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bilal Siki - Cybersecurity Student</title>
+
+    <!-- Emploi du Rubik police d'écriture depuis Google truc -->
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <!-- Charger Le Fantastique Icônes Bibliothèque 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        xintegrity="sha512-SnH5WK+bZxgPHs44uWIX+LLMDJd/rB1vK2bUXlW/Jq0A+RkIT/W7C2oA5K/A0R5G9Bf/R0u9bFw+f5z/R7+xQw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+        :root {
+            --primary-color: #333;
+            --secondary-color: #555;
+            --light-gray: #f4f4f4;
+            --accent-blue: #007bff;
+        }
+
+        body {
+            font-family: 'Rubik', sans-serif;
+            line-height: 1.5;
+            color: var(--primary-color);
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 30px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+            background-color: white;
+        }
+
+        /* Les Titres Chefs */
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        h2 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 5px;
+            margin-top: 25px;
+            margin-bottom: 10px;
+            letter-spacing: 0.5px;
+        }
+
+        h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin: 0;
+            color: var(--primary-color);
+        }
+
+        /* Contact Infomation */
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            padding: 0;
+            list-style: none;
+            font-size: 0.95rem;
+            color: var(--secondary-color);
+            margin-bottom: 20px;
+        }
+
+        .contact-info li {
+            margin: 0 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .contact-info a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .contact-info a:hover {
+            color: var(--accent-blue);
+        }
+
+        .fa-icon {
+            /* Updated class for Font Awesome */
+            margin-right: 5px;
+            font-size: 1.1em;
+            color: var(--accent-blue);
+        }
+
+        /* Liens Très Général */
+        a {
+            color: var(--accent-blue);
+            text-decoration: none;
+        }
+
+        /* Expérience/Projets Chefs (Faire Le Titre Plus Chef, Date Droit, Location Deuxième) */
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 5px;
+            flex-wrap: wrap;
+        }
+
+        .item-header p {
+            margin: 0;
+            font-style: italic;
+            font-weight: 400;
+            color: var(--secondary-color);
+            min-width: 150px;
+            text-align: right;
+        }
+
+        .location-info {
+            font-size: 0.9rem;
+            color: var(--secondary-color);
+            margin-bottom: 5px;
+        }
+
+        /* Points de Balle */
+        ul {
+            padding-left: 20px;
+            margin: 5px 0 15px 0;
+            list-style-type: disc;
+        }
+
+        ul li {
+            margin-bottom: 4px;
+            font-size: 0.95rem;
+        }
+
+        /* Les Compétences */
+        .skills-container {
+            margin-top: 10px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .skill-badge {
+            background-color: var(--light-gray);
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            font-weight: 400;
+        }
+
+        /* Éducation (Pour Apprendre) */
+        .education-item {
+            margin-bottom: 15px;
+        }
+
+        .education-item p {
+            margin: 0;
+            font-style: italic;
+            font-weight: 400;
+            color: var(--secondary-color);
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1 style="text-align: center;">BILAL SIKI</h1>
+
+        <!-- Infos Contact - Icônes Change Pour Fantastique Police -->
+        <ul class="contact-info">
+            <li>
+                <i class="fa-solid fa-phone fa-icon"></i>
+                +212 723 537 180
+            </li>
+            <li>
+                <i class="fa-solid fa-envelope fa-icon"></i>
+                <a href="mailto:biilal06siki@gmail.com">biilal06siki@gmail.com</a>
+            </li>
+            <li>
+                <i class="fa-brands fa-linkedin-in fa-icon"></i>
+                <a href="https://linkedin.com/in/bilal-siki-3ba436320"
+                    target="_blank">linkedin.com/in/bilal-siki-3ba436320</a>
+            </li>
+            <li>
+                <i class="fa-solid fa-location-dot fa-icon"></i>
+                Morocco
+            </li>
+        </ul>
+    </header>
+
+    <!-- Sommaire Pro - Icône Change Pour Fantastique Police -->
+    <section id="summary">
+        <h2><i class="fa-solid fa-user-tie fa-icon"></i> Professional Summary</h2>
+        <p>
+            Cybersecurity student at Ibn Zohr University (FPO), pursuing a bachelor’s degree in information security and
+            risk management. Possesses hands-on experience with system monitoring, identity management, and automation
+            through open-source projects like <strong>SMO</strong> and <strong>CyberPack</strong>. Highly organized and
+            adaptable, with strong multitasking and workflow optimization skills using AI-assisted tools. Seeking
+            opportunities in <strong>Bug Bounty, GRC, and IAM</strong>, particularly within startups, small businesses,
+            or government sectors.
+        </p>
+    </section>
+
+    <!-- Travail Expérience & Projets - Icône Change Pour Fantastique Police -->
+    <section id="experience-projects">
+        <h2><i class="fa-solid fa-code fa-icon"></i> Work Experience & Projects</h2>
+
+        <!-- SMO Projet - module de OS/Net 3 -->
+        <div class="job">
+            <div class="item-header">
+                <h3>System Monitoring and Orchestration (SMO)</h3>
+                <p>Oct 2025 – Present</p>
+            </div>
+            <div class="location-info">Ibn Zohr University (FPO) — Academic Project | <a
+                    href="https://github.com/SICROMONOCO/SMO" target="_blank">GitHub</a> | Morocco / Remote</div>
+            <ul>
+                <li>Developed a containerized monitoring suite with <strong>Docker Compose</strong>, supporting both
+                    host and container metrics.</li>
+                <li>Built a <strong>FastAPI</strong> web dashboard and Textual TUI for real-time Linux system
+                    monitoring.</li>
+                <li>Integrated <strong>InfluxDB</strong> for historical data storage with optional file-based logging.
+                </li>
+                <li>Implemented secure <strong>SSH-based remote monitoring</strong> with key authentication.</li>
+                <li>Automated deployment for Dockerized and standalone setups, increasing efficiency.</li>
+                <li>Leveraged <strong>Python, FastAPI, Uvicorn, WebSockets, psutil, Rich/Textual</strong>, and
+                    <strong>AI-assisted development</strong> to optimize performance.</li>
+            </ul>
+        </div>
+
+        <!-- CyberPack Le Projet -->
+        <div class="job">
+            <div class="item-header">
+                <h3>CyberPack</h3>
+                <p>June 2025 – Oct 2025</p>
+            </div>
+            <div class="location-info">
+                <a href="https://github.com/SICROMONOCO/CyberPack" target="_blank">GitHub</a> | <a href="https://cyber-pack.vercel.app/"
+                    target="_blank">Live Site</a>
+            </div>
+            <ul>
+                <li>Built a <strong>React + TypeScript</strong> web app for centralized university resources with
+                    <strong>Supabase</strong> backend.</li>
+                <li>Implemented data fetching/caching using <strong>TanStack React Query</strong> and interactive charts
+                    with <strong>Recharts</strong>.</li>
+                <li>Designed modular, accessible UI components using <strong>shadcn/ui</strong> and <strong>Radix
+                        UI</strong>.</li>
+                <li>Deployed the application on <strong>Vercel</strong> with automated build scripts.</li>
+            </ul>
+        </div>
+
+        <!-- Site Web De Mon Portefeuille Projet -->
+        <div class="job">
+            <div class="item-header">
+                <h3>Portfolio Website</h3>
+                <p>2025</p>
+            </div>
+            <div class="location-info">
+                <a href="https://github.com/SICROMONOCO/Portfolio" target="_blank">GitHub</a> | <a href="https://bilal06siki-portfolio.vercel.app/"
+                    target="_blank">Live Site</a>
+            </div>
+            <ul>
+                <li>Developed a responsive portfolio site showcasing projects, UI/UX design, and technical skills.</li>
+                <li>Built component-driven UI with <strong>React, TypeScript, Vite, Tailwind CSS, shadcn/ui</strong>,
+                    and <strong>Radix UI</strong>.</li>
+                <li>Deployed on <strong>Vercel</strong> with streamlined build process.</li>
+            </ul>
+        </div>
+
+        <!-- SQL Le Projet S02  -->
+        <div class="job">
+            <div class="item-header">
+                <h3>SQL Project: Educational Data Management System</h3>
+                <p>2025</p>
+            </div>
+            <div class="location-info"><a href="https://github.com/SICROMONOCO/SQL-Project" target="_blank">GitHub</a></div>
+            <ul>
+                <li>Developed a <strong>Python-based system</strong> to manage educational data with
+                    <strong>SQL</strong> database design and queries.</li>
+                <li>Built a dashboard for data visualization and reporting.</li>
+                <li>Applied software engineering principles to ensure modularity and maintainability.</li>
+            </ul>
+        </div>
+
+        <!-- Stage Interim -->
+        <div class="job">
+            <div class="item-header">
+                <h3>Internship — CodeAlpha</h3>
+                <p>Sep 2025 – Oct 2025</p>
+            </div>
+            <div class="location-info">Remote</div>
+            <ul>
+                <li>Engaged in cybersecurity-focused tasks, contributing to practical learning and skill development.
+                </li>
+            </ul>
+        </div>
+
+        <!-- L'Expérience academic-->
+        <div class="job">
+            <div class="item-header">
+                <h3>Cybersecurity Student — Université Ibn Zohr</h3>
+                <p>Sep 2024 – Present</p>
+            </div>
+            <div class="location-info">Morocco / Hybrid</div>
+            <ul>
+                <li>Participated in coursework, labs, and projects emphasizing cybersecurity fundamentals, networking,
+                    and operating systems.</li>
+            </ul>
+        </div>
+
+    </section>
+
+    <!-- Les Compétences -->
+    <section id="skills">
+        <h2><i class="fa-solid fa-brain fa-icon"></i> Skills & Certifications</h2>
+
+        <h3 style="margin-top: 10px; border-bottom: none; padding-bottom: 0;">Technical Skills (Beginner/Foundational)
+        </h3>
+        <div class="skills-container">
+            <span class="skill-badge">Python</span>
+            <span class="skill-badge">Bash scripting</span>
+            <span class="skill-badge">SQL</span>
+            <span class="skill-badge">HTML</span>
+            <span class="skill-badge">CSS</span>
+            <span class="skill-badge">Docker</span>
+            <span class="skill-badge">Burp Suite</span>
+            <span class="skill-badge">Wireshark</span>
+            <span class="skill-badge">Aircrack-ng</span>
+            <span class="skill-badge">vim</span>
+            <span class="skill-badge">Git & GitHub</span>
+            <span class="skill-badge">Cloud Hosting</span>
+        </div>
+
+        <h3 style="margin-top: 20px; border-bottom: none; padding-bottom: 0;">Soft Skills & Cognitive Strengths</h3>
+        <div class="skills-container">
+            <span class="skill-badge">Critical Thinking</span>
+            <span class="skill-badge">Multitasking</span>
+            <span class="skill-badge">Workflow Optimization</span>
+            <span class="skill-badge">Adaptability to AI-assisted Tools</span>
+            <span class="skill-badge">Time Management</span>
+            <span class="skill-badge">Task Automation</span>
+        </div>
+
+        <h3 style="margin-top: 20px; border-bottom: none; padding-bottom: 0;">Languages</h3>
+        <div class="skills-container">
+            <span class="skill-badge">English (C1 – Advanced)</span>
+            <span class="skill-badge">French (Intermediate)</span>
+            <span class="skill-badge">Arabic (Native)</span>
+        </div>
+
+        <h3 style="margin-top: 20px; border-bottom: none; padding-bottom: 0;">Certifications</h3>
+        <ul>
+            <li><strong>Google Cybersecurity Professional Certificate</strong> — Aug 2025</li>
+            <li><strong>IBM Introduction to Cybersecurity</strong> — Aug 2025</li>
+            <li><strong>ALX Africa / AI & Project Management Skills</strong> — Apr 2025</li>
+            <li><strong>EF SET English Certificate (C1 Advanced)</strong> — Nov 2024</li>
+        </ul>
+    </section>
+
+    <!-- Éducation - Icône Change Fantastique Police et École Fait Gras Pour Chef -->
+    <section id="education">
+        <h2><i class="fa-solid fa-graduation-cap fa-icon"></i> Education</h2>
+
+        <!-- Section Bachelier - Lien Portefeuille Ajouté -->
+        <div class="education-item">
+            <div class="item-header">
+                <h3>Bachelor’s (License) in Cybersecurity</h3>
+                <p>Expected Graduation: 2026</p>
+            </div>
+            <!-- Lien Portefeuille Ajouté à Info-Localisation Ligne -->
+            <div class="location-info">Department of Mathematics, FPO, <strong>Ibn Zohr University (UIZ)</strong>,
+                Morocco | <a href="https://bilal06siki-portfolio.vercel.app/" target="_blank">Portfolio</a></div>
+            <p>Relevant Projects: SMO, CyberPack</p>
+        </div>
+
+        <!-- Bac Section - Plus De Détails Ajouté -->
+        <div class="education-item">
+            <div class="item-header">
+                <h3>Baccalauréat, Experimental Science</h3>
+                <p>Sep 2021 – Jun 2024</p>
+            </div>
+            <!-- Razi Haute École est Le Nom De L'Institution -->
+            <div class="location-info"><strong>RAZI HIGH SCHOOL</strong>, Taznakhte, Morocco | Grade: Bien</div>
+            <!-- Certification Détails Ajouté -->
+            <ul style="list-style-type: none; padding-left: 0; margin-top: 5px;">
+                <li style="font-size: 0.9rem; color: var(--secondary-color);"><strong>Issued:</strong> Jul 2024</li>
+                <li style="font-size: 0.9rem; color: var(--secondary-color);"><strong>Credential ID:</strong>
+                    48172bc3828497f02369e5d12a3ded1a500b8685</li>
+            </ul>
+            <p>Skills Highlighted: Time Management, Critical Thinking, Problem Solving</p>
+        </div>
+    </section>
+            
+</body>
+
+</html>
