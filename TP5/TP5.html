@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TP JavaScript – Exercices Fondamentaux</title>
+    <style>
+        body { font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding: 20px; }
+        h2 { margin-top: 30px; }
+        button { padding: 10px 15px; margin-top: 10px; cursor: pointer; }
+        .result { background: #121212;
+                border: 2px solid #4a4a4a;
+                border-radius: 10px;
+                padding: 20px;
+                box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+                transition: transform 0.2s, box-shadow 0.2s; }
+    </style>
+</head>
+<body>
+    <h1>TP JavaScript – Niveau Fondamental</h1>
+
+    <!-- Exercice 1 -->
+    <h2>Exercice 1 : Opérations sur deux nombres</h2>
+    <button onclick="exercice1()">Tester l'exercice 1</button>
+    <div id="res1" class="result"></div>
+
+    <!-- Exercice 2 -->
+    <h2>Exercice 2 : Jeu de devinette (1 à 10)</h2>
+    <button onclick="exercice2()">Démarrer le jeu</button>
+    <div id="res2" class="result"></div>
+
+    <!-- Exercice 3 -->
+    <h2>Exercice 3 : Quiz interactif</h2>
+    <button onclick="lancerQuiz()">Démarrer le Quiz</button>
+    <div id="res3" class="result"></div>
+
+
+    <script>
+        // ------------------ Exercice 1 ------------------
+        function exercice1() {
+            let a = parseFloat(prompt("Entrez le premier nombre :"));
+            let b = parseFloat(prompt("Entrez le deuxième nombre :"));
+
+            let somme = a + b;
+            let diff = a - b;
+            let prod = a * b;
+            let quot = a / b;
+
+            console.log("Somme :", somme);
+            console.log("Différence :", diff);
+            console.log("Produit :", prod);
+            console.log("Quotient :", quot);
+
+            document.getElementById("res1").innerHTML =
+                `Somme = ${somme}<br>Différence = ${diff}<br>Produit = ${prod}<br>Quotient = ${quot}`;
+        }
+
+        // ------------------ Exercice 2 ------------------
+        function exercice2() {
+            let secret = Math.floor(Math.random() * 10) + 1;
+            let tentative = 0;
+            let guess;
+
+            do {
+                guess = parseInt(prompt("Devinez un nombre entre 1 et 10 :"));
+                tentative++;
+
+                if (guess > secret) alert("Trop grand !");
+                else if (guess < secret) alert("Trop petit !");
+            } while (guess !== secret);
+
+            document.getElementById("res2").innerHTML =
+                `Bravo ! Vous avez trouvé en ${tentative} tentatives.`;
+        }
+
+        // ------------------ Exercice 3 ------------------
+
+        const QUESTIONS = [
+            ["Quelle est la capitale du Maroc ?", "Rabat"],
+            ["Combien font 5 + 3 ?", "8"],
+            ["Quelle est la capitale de la France ?", "Paris"]
+        ];
+
+        function lancerQuiz() {
+            let score = 0;
+
+            for (let i = 0; i < QUESTIONS.length; i++) {
+                let userAnswer = prompt(QUESTIONS[i][0]);
+
+                if (userAnswer !== null && userAnswer.toLowerCase() === QUESTIONS[i][1].toLowerCase()) {
+                    alert("Réponse juste ✔️");
+                    score++;
+                } else {
+                    alert("Réponse fausse ❌");
+                }
+            }
+
+            document.getElementById("res3").innerHTML =
+                `Vous avez répondu correctement à ${score} question(s) sur ${QUESTIONS.length}.`;
+        }
+    </script>
+</body>
+</html>
