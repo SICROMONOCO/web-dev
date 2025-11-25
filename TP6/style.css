@@ -1,0 +1,80 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    background-color: #f4f4f9;
+}
+
+/* ------------------------------------- */
+/* Styles pour l'Exercice 1 */
+/* ------------------------------------- */
+
+.container-dom {
+    padding: 15px;
+    border: 1px solid #ccc;
+    margin: 20px 0;
+    cursor: pointer;
+    background-color: #ffffff;
+}
+
+.paragraph-dom {
+    padding: 10px;
+}
+
+/* ------------------------------------- */
+/* Styles pour l'Exercice 2 (To-do List) */
+/* ------------------------------------- */
+
+#task-form {
+    margin-bottom: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+#task-input {
+    flex-grow: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+#task-list {
+    list-style: none;
+    padding: 0;
+}
+
+#task-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    margin-bottom: 8px;
+    background-color: #fff;
+    border: 1px solid #eee;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.completed {
+    text-decoration: line-through;
+    background-color: #e6ffe6;
+    color: #888;
+}
+
+.action-buttons button {
+    padding: 5px 10px;
+    margin-left: 5px;
+    border: none;
+    cursor: pointer;
+    border-radius: 3px;
+    font-weight: bold;
+}
+
+.complete-btn {
+    background-color: #28a745;
+    color: white;
+}
+
+.delete-btn {
+    background-color: #dc3545;
+    color: white;
+}
