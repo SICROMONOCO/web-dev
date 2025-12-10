@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <link rel="icon" type="image/png" href="ico.png"/> 
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Formulaire PHP</title>
+    <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+    <div class="form-container">
+        <h1 class="form-title">Inscription au Projet PHP</h1>
+        
+        <form action="response.php" method="POST" class="form-group">
+            <fieldset>
+                <legend>Informations Personnelles</legend>
+                
+                <div class="input-grid">
+                    <div class="grid-item-1">
+                        <label for="titre">Titre</label>
+                        <select name="titre" id="titre" class="form-select">
+                            <option value="M.">M.</option>
+                            <option value="Mme.">Mme.</option>
+                            <option value="Dr.">Dr.</option>
+                        </select>
+                    </div>
+
+                    <div class="grid-item-2">
+                        <label for="prenom">Prénom</label>
+                        <input type="text" name="prenom" id="prenom" class="form-input" required placeholder="Votre prénom">
+                    </div>
+                </div>
+
+             
+                <div>
+                    <label for="nom">Nom</label>
+                    <input type="text" name="nom" id="nom" class="form-input" required placeholder="Votre nom de famille">
+                </div>
+
+               
+                <div class="radio-group">
+                    <span class="radio-label">Sexe</span>
+                    <div class="radio-options">
+                        <div class="radio-option">
+                            <input id="sexe-h" name="sexe" type="radio" value="H" checked>
+                            <label for="sexe-h">Homme (H)</label>
+                        </div>
+                        <div class="radio-option">
+                            <input id="sexe-f" name="sexe" type="radio" value="F">
+                            <label for="sexe-f">Femme (F)</label>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+
+           
+            <fieldset>
+                <legend>Informations de Compte</legend>
+                
+            
+                <div>
+                    <label for="identifiant">Identifiant</label>
+                    <input type="text" name="identifiant" id="identifiant" class="form-input" required placeholder="Nom d'utilisateur">
+                </div>
+                
+     
+                <div>
+                    <label for="mdp">Mot de Passe</label>
+                    <input type="password" name="mdp" id="mdp" class="form-input" required placeholder="Un mot de passe secret">
+                </div>
+            </fieldset>
+
+        
+            <fieldset class="options-group">
+                <legend>Options Supplémentaires</legend>
+                
+            
+                <div class="checkbox-option">
+                    <input id="debutant" name="debutant" type="checkbox" value="oui">
+                    <label for="debutant">Je suis débutant en programmation PHP.</label>
+                </div>
+                
+               
+                <div>
+                    <label for="annee">Votre année de naissance (ex: 1990)</label>
+                    <input type="number" name="annee" id="annee" class="form-input" min="1900" max="2025" placeholder="Entrez l'année">
+                </div>
+            </fieldset>
+
+        
+            <button type="submit" class="submit-button">
+                Envoyer les données
+            </button>
+        </form>
+        
+        <p class="footer-note">Le traitement sera effectué par le script response.php en utilisant la méthode POST.</p>
+    </div>
+</body>
+</html>
