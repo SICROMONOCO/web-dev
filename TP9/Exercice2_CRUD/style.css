@@ -1,0 +1,56 @@
+body { font-family: sans-serif; }
+.container { width: 80%; margin: 20px auto; }
+
+/* Messages de notification (Orange) */
+.alert {
+    background-color: #d35400; /* Orange foncé */
+    color: white;
+    padding: 10px;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+/* Formulaires */
+fieldset {
+    border: 1px solid #ccc;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+legend {
+    font-size: 1.2em;
+    color: #dcdcdc;
+    padding: 0 5px;
+}
+label { display: block; margin-bottom: 5px; }
+input[type="text"], input[type="date"] {
+    width: 300px;
+    padding: 5px;
+    margin-bottom: 10px;
+}
+button { cursor: pointer; padding: 5px 15px; }
+
+/* Tableau */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+th {
+    background-color: #f39c12; /* Orange clair */
+    color: black;
+    padding: 10px;
+    border: 1px solid white;
+}
+td {
+    background-color: #3498db; /* Bleu */
+    color: white;
+    padding: 10px;
+    text-align: center;
+    border: 1px solid white;
+}
+a {
+    color: white;
+    text-decoration: underline;
+    margin: 0 5px;
+}
+a:hover { text-decoration: none; }
