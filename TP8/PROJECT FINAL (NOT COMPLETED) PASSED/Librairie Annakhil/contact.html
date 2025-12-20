@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <title>Contact - Librairie Annalhil</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <img src="logo.jpg" alt="Logo Librairie Annalhil" class="logo">
+        <h1>Contactez-nous</h1>
+    </header>
+    <nav>
+        <a href="index.html">Accueil</a>
+        <a href="services.html">Nos Services</a>
+        <a href="produits.php">Produits</a>
+        <a href="contact.html">Contact</a>
+    </nav>
+    <main>
+        <p>Remplissez ce formulaire pour toute demande de service ou question.</p>
+        <form id="contactForm" class="contact-form" action="handle_contact.php" method="POST">
+            
+            <div class="form-group">
+                <label for="client_nom">Votre Nom :</label>
+                <input type="text" id="client_nom" name="client_nom">
+            </div>
+            <div class="form-group">
+                <label for="client_telephone">Votre Téléphone :</label>
+                <input type="text" id="client_telephone" name="client_telephone">
+            </div>
+            <div class="form-group">
+                <label for="message_details">Votre Message / Demande :</label>
+                <textarea id="message_details" name="message_details" rows="5"></textarea>
+            </div>
+
+            <button type="submit">Envoyer</button>
+        </form>
+    </main>
+    <footer>
+        <p><strong>Adresse:</strong> Centre Agdz, Près du Lycée Al Khawarizmi</p>
+        <p><strong>Téléphone:</strong> 0600539454 / 0695250669</p>
+        <p>Tous droits réservés © 2025</p>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>
