@@ -1,0 +1,552 @@
+#!/usr/bin/env node
+/**
+ * MicroBlog Project Report Generator
+ * Generates a PDF report for the TP8 MicroBlog project
+ */
+
+const fs = require('fs');
+const path = require('path');
+
+// Read the README content
+const readmePath = path.join(__dirname, 'README.md');
+const readmeContent = fs.existsSync(readmePath) ? fs.readFileSync(readmePath, 'utf8') : '';
+
+// Read the source files
+const indexHtmlPath = path.join(__dirname, 'index.html');
+const apiPhpPath = path.join(__dirname, 'api.php');
+
+const indexHtmlContent = fs.readFileSync(indexHtmlPath, 'utf8');
+const apiPhpContent = fs.readFileSync(apiPhpPath, 'utf8');
+
+// Generate HTML report
+const htmlReport = `
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>TP8 - Projet MicroBlog Report</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+    
+    body { 
+      font-family: 'Inter', Arial, sans-serif; 
+      margin: 0;
+      padding: 40px; 
+      background-color: #F9FAFB;
+      color: #1F2937;
+      line-height: 1.6;
+    }
+    
+    h1 { 
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #111827;
+      margin-bottom: 0.5rem;
+      border-bottom: 3px solid #2563EB;
+      padding-bottom: 1rem;
+    }
+    
+    h2 { 
+      font-size: 1.75rem;
+      font-weight: 600;
+      color: #1F2937;
+      margin-top: 2.5rem;
+      margin-bottom: 1rem;
+      border-bottom: 2px solid #E5E7EB;
+      padding-bottom: 0.5rem;
+    }
+    
+    h3 { 
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #374151;
+      margin-top: 1.5rem;
+      margin-bottom: 0.75rem;
+    }
+    
+    .info-card {
+      background: #FFFFFF;
+      border: 1px solid #E5E7EB;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+      padding: 2rem;
+      margin: 2rem 0;
+    }
+    
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin: 2rem 0;
+    }
+    
+    .feature-card {
+      background: #FFFFFF;
+      border: 1px solid #E5E7EB;
+      border-radius: 8px;
+      padding: 1.5rem;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+    
+    .feature-card h4 {
+      color: #2563EB;
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+    }
+    
+    .feature-card p {
+      color: #6B7280;
+      font-size: 0.95rem;
+      margin: 0;
+    }
+    
+    .screenshot-container {
+      background: #FFFFFF;
+      border: 1px solid #E5E7EB;
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin: 2rem 0;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    }
+    
+    .screenshot-container img {
+      width: 100%;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    .code-section {
+      background: #1F2937;
+      color: #F9FAFB;
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+      overflow-x: auto;
+      font-family: 'Monaco', 'Courier New', monospace;
+      font-size: 0.85rem;
+      line-height: 1.5;
+    }
+    
+    .tech-stack {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin: 1rem 0;
+    }
+    
+    .tech-badge {
+      background: #2563EB;
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+    
+    .security-item {
+      background: #ECFDF5;
+      border-left: 4px solid #10B981;
+      padding: 1rem;
+      margin: 0.75rem 0;
+      border-radius: 4px;
+    }
+    
+    .security-item strong {
+      color: #065F46;
+    }
+    
+    ul {
+      padding-left: 1.5rem;
+      color: #4B5563;
+    }
+    
+    li {
+      margin-bottom: 0.5rem;
+    }
+    
+    a {
+      color: #2563EB;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    
+    a:hover {
+      text-decoration: underline;
+    }
+    
+    .highlight {
+      background: #FEF3C7;
+      padding: 0.2rem 0.4rem;
+      border-radius: 3px;
+      font-weight: 500;
+    }
+    
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.5rem 0;
+      background: white;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    
+    th, td {
+      padding: 1rem;
+      text-align: left;
+      border-bottom: 1px solid #E5E7EB;
+    }
+    
+    th {
+      background: #F3F4F6;
+      font-weight: 600;
+      color: #1F2937;
+    }
+    
+    .page-break {
+      page-break-after: always;
+    }
+  </style>
+</head>
+<body>
+  <h1>TP8 - Projet MicroBlog</h1>
+  
+  <div class="info-card">
+    <h3>📋 Informations du Projet</h3>
+    <ul>
+      <li><strong>Étudiant:</strong> bilal siki</li>
+      <li><strong>Module:</strong> Web Development</li>
+      <li><strong>Travail Pratique:</strong> TP8 - Prototype MVC Micro-Blogging</li>
+      <li><strong>Dépôt GitHub:</strong> <a href="https://github.com/SICROMONOCO/web-dev" target="_blank">SICROMONOCO/web-dev</a></li>
+      <li><strong>Dossier:</strong> TP8/Projet_MicroBlog/</li>
+    </ul>
+  </div>
+
+  <h2>🎯 Objectif du Projet</h2>
+  <div class="info-card">
+    <p>
+      Créer un <span class="highlight">prototype de micro-blogging sécurisé et autonome</span> 
+      utilisant une architecture MVC avec PHP vanilla, HTML, CSS et JavaScript. 
+      Le projet doit être entièrement auto-suffisant sans aucune dépendance externe 
+      (pas de Bootstrap, Tailwind ou jQuery).
+    </p>
+  </div>
+
+  <h2>💻 Technologies Utilisées</h2>
+  <div class="tech-stack">
+    <span class="tech-badge">PHP 7.4+</span>
+    <span class="tech-badge">HTML5</span>
+    <span class="tech-badge">CSS3</span>
+    <span class="tech-badge">JavaScript ES6+</span>
+    <span class="tech-badge">JSON Storage</span>
+    <span class="tech-badge">Fetch API</span>
+  </div>
+
+  <h2>🏗️ Architecture</h2>
+  <div class="feature-grid">
+    <div class="feature-card">
+      <h4>📄 index.html (14 KB)</h4>
+      <p><strong>Vue + Logique Client</strong></p>
+      <ul>
+        <li>Design minimaliste inspiré de Perplexity</li>
+        <li>CSS embarqué (800px centré)</li>
+        <li>JavaScript avec Fetch API</li>
+        <li>Nommage en français</li>
+      </ul>
+    </div>
+    
+    <div class="feature-card">
+      <h4>⚙️ api.php (9 KB)</h4>
+      <p><strong>Contrôleur + Modèle</strong></p>
+      <ul>
+        <li>Classe MicroBlogController</li>
+        <li>Endpoints GET/POST RESTful</li>
+        <li>Stockage JSON plat</li>
+        <li>Commentaires détaillés en français</li>
+      </ul>
+    </div>
+    
+    <div class="feature-card">
+      <h4>💾 posts.json</h4>
+      <p><strong>Stockage de Données</strong></p>
+      <ul>
+        <li>Fichier JSON auto-créé</li>
+        <li>Structure simple et efficace</li>
+        <li>Posts avec ID unique</li>
+        <li>Horodatage ISO 8601</li>
+      </ul>
+    </div>
+    
+    <div class="feature-card">
+      <h4>📚 README.md</h4>
+      <p><strong>Documentation</strong></p>
+      <ul>
+        <li>Instructions d'installation</li>
+        <li>Documentation API</li>
+        <li>Guide de sécurité</li>
+        <li>Exemples d'utilisation</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>🔐 Fonctionnalités de Sécurité</h2>
+  
+  <div class="security-item">
+    <strong>🛡️ Protection XSS:</strong> Tous les contenus utilisateur sont nettoyés avec 
+    <code>htmlspecialchars(ENT_QUOTES, 'UTF-8')</code>
+  </div>
+  
+  <div class="security-item">
+    <strong>🔑 Génération d'ID Sécurisée:</strong> Utilisation de 
+    <code>bin2hex(random_bytes(16))</code> au lieu de <code>uniqid()</code>
+  </div>
+  
+  <div class="security-item">
+    <strong>✅ Validation des Entrées:</strong> Vérification de la longueur (500 caractères max), 
+    détection des champs vides
+  </div>
+  
+  <div class="security-item">
+    <strong>🚨 Gestion des Erreurs:</strong> Gestion complète des erreurs pour les opérations 
+    de fichiers, encodage/décodage JSON
+  </div>
+  
+  <div class="security-item">
+    <strong>🌐 En-têtes CORS:</strong> Configuration appropriée pour les requêtes cross-origin
+  </div>
+
+  <div class="page-break"></div>
+
+  <h2>📡 API Endpoints</h2>
+  
+  <table>
+    <thead>
+      <tr>
+        <th>Méthode</th>
+        <th>Endpoint</th>
+        <th>Description</th>
+        <th>Réponse</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>GET</strong></td>
+        <td>/api.php</td>
+        <td>Récupère tous les posts triés par date</td>
+        <td>JSON avec liste de posts</td>
+      </tr>
+      <tr>
+        <td><strong>POST</strong></td>
+        <td>/api.php</td>
+        <td>Crée un nouveau post</td>
+        <td>JSON avec le post créé</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Exemple de Requête POST</h3>
+  <div class="code-section">
+{
+  "contenu": "Votre message ici"
+}
+  </div>
+
+  <h3>Exemple de Réponse</h3>
+  <div class="code-section">
+{
+  "success": true,
+  "message": "Post créé avec succès",
+  "post": {
+    "id": "post_e506c1ace8ff59820b97c5291fea7bb0",
+    "contenu": "Votre message ici",
+    "horodatage": "2025-12-20T19:57:30+00:00"
+  }
+}
+  </div>
+
+  <h2>🎨 Fonctionnalités de l'Interface</h2>
+  
+  <div class="info-card">
+    <h3>Zone de Création</h3>
+    <ul>
+      <li><strong>Textarea:</strong> Champ de saisie pour composer un nouveau post (max 500 caractères)</li>
+      <li><strong>Validation:</strong> Vérification côté client et serveur</li>
+      <li><strong>Bouton "Publier":</strong> Soumission asynchrone sans rechargement</li>
+    </ul>
+    
+    <h3>Fil d'Actualité</h3>
+    <ul>
+      <li><strong>Affichage:</strong> Posts triés du plus récent au plus ancien</li>
+      <li><strong>Horodatage Relatif:</strong> "À l'instant", "Il y a X minutes/heures"</li>
+      <li><strong>Mise à Jour Dynamique:</strong> Ajout instantané sans rechargement de page</li>
+    </ul>
+    
+    <h3>Gestion d'Erreurs</h3>
+    <ul>
+      <li><strong>Messages d'Erreur:</strong> Affichage convivial en cas de problème</li>
+      <li><strong>Indicateurs de Chargement:</strong> Feedback visuel pendant les opérations</li>
+      <li><strong>État Vide:</strong> Message encourageant quand aucun post n'existe</li>
+    </ul>
+  </div>
+
+  <h2>📸 Captures d'Écran</h2>
+  
+  <h3>Interface Principale</h3>
+  <div class="screenshot-container">
+    <img src="https://github.com/user-attachments/assets/e4ba4d5c-6601-4cfc-a791-1df464e17dac" 
+         alt="MicroBlog - Interface Principale">
+    <p style="text-align: center; color: #6B7280; margin-top: 1rem;">
+      <em>Interface principale avec le formulaire de création et le fil d'actualité</em>
+    </p>
+  </div>
+
+  <div class="page-break"></div>
+
+  <h2>📝 Conventions de Code</h2>
+  
+  <div class="info-card">
+    <h3>Nommage</h3>
+    <ul>
+      <li><strong>Langue:</strong> Tous les commentaires et noms de variables/fonctions en français</li>
+      <li><strong>JavaScript:</strong> camelCase (<code>chargerPosts</code>, <code>soumettrePost</code>)</li>
+      <li><strong>PHP:</strong> snake_case pour les propriétés privées (<code>$fichierDonnees</code>)</li>
+      <li><strong>CSS:</strong> Classes descriptives en français (<code>.zone-creation</code>, <code>.carte-post</code>)</li>
+    </ul>
+    
+    <h3>Documentation</h3>
+    <ul>
+      <li><strong>Commentaires JSDoc:</strong> Pour toutes les fonctions JavaScript</li>
+      <li><strong>DocBlocks PHP:</strong> Pour la classe et toutes les méthodes</li>
+      <li><strong>Flux de Données:</strong> Commentaires détaillés expliquant le traitement étape par étape</li>
+    </ul>
+  </div>
+
+  <h2>✅ Tests Effectués</h2>
+  
+  <div class="info-card">
+    <h3>Tests Fonctionnels</h3>
+    <ul>
+      <li>✓ Création de post via le formulaire</li>
+      <li>✓ Chargement des posts au démarrage de la page</li>
+      <li>✓ Tri des posts (plus récent en premier)</li>
+      <li>✓ Mise à jour dynamique du DOM</li>
+      <li>✓ Nettoyage du formulaire après soumission</li>
+      <li>✓ Affichage des horodatages relatifs</li>
+    </ul>
+    
+    <h3>Tests de Sécurité</h3>
+    <ul>
+      <li>✓ Protection XSS (balises <code>&lt;script&gt;</code> échappées)</li>
+      <li>✓ Validation des champs vides</li>
+      <li>✓ Validation de la longueur maximale (500 caractères)</li>
+      <li>✓ Génération d'ID sécurisés avec <code>random_bytes()</code></li>
+    </ul>
+    
+    <h3>Tests d'Erreur</h3>
+    <ul>
+      <li>✓ Gestion des erreurs de lecture/écriture de fichiers</li>
+      <li>✓ Gestion des erreurs d'encodage/décodage JSON</li>
+      <li>✓ Messages d'erreur utilisateur conviviaux</li>
+      <li>✓ Gestion des erreurs réseau (Fetch API)</li>
+    </ul>
+  </div>
+
+  <h2>📦 Structure des Fichiers</h2>
+  
+  <div class="code-section">
+Projet_MicroBlog/
+├── .gitignore          # Exclut posts.json du contrôle de version
+├── README.md           # Documentation complète du projet
+├── index.html          # Vue et logique client (14 KB)
+├── api.php             # Contrôleur et modèle (9 KB)
+└── posts.json          # Stockage des données (généré automatiquement)
+  </div>
+
+  <h2>🚀 Installation et Utilisation</h2>
+  
+  <div class="info-card">
+    <h3>Prérequis</h3>
+    <ul>
+      <li>PHP 7.4 ou supérieur</li>
+      <li>Serveur web (Apache, Nginx) ou serveur de développement PHP</li>
+    </ul>
+    
+    <h3>Démarrage Rapide</h3>
+    <div class="code-section">
+# Naviguer dans le répertoire du projet
+cd TP8/Projet_MicroBlog
+
+# Démarrer le serveur de développement PHP
+php -S localhost:8080
+
+# Ouvrir dans le navigateur
+# http://localhost:8080/index.html
+    </div>
+  </div>
+
+  <h2>🎓 Compétences Démontrées</h2>
+  
+  <div class="feature-grid">
+    <div class="feature-card">
+      <h4>🏛️ Architecture</h4>
+      <p>Implémentation complète du pattern MVC avec séparation claire des responsabilités</p>
+    </div>
+    
+    <div class="feature-card">
+      <h4>🔒 Sécurité</h4>
+      <p>Protection contre XSS, validation des entrées, génération sécurisée d'identifiants</p>
+    </div>
+    
+    <div class="feature-card">
+      <h4>🎨 Design</h4>
+      <p>Interface minimaliste moderne inspirée de Perplexity avec CSS vanilla</p>
+    </div>
+    
+    <div class="feature-card">
+      <h4>⚡ Performance</h4>
+      <p>Chargement asynchrone, mises à jour DOM optimisées, pas de dépendances</p>
+    </div>
+    
+    <div class="feature-card">
+      <h4>📝 Documentation</h4>
+      <p>Commentaires complets en français, README détaillé, code auto-documenté</p>
+    </div>
+    
+    <div class="feature-card">
+      <h4>🧪 Tests</h4>
+      <p>Tests manuels complets incluant fonctionnalités, sécurité et gestion d'erreurs</p>
+    </div>
+  </div>
+
+  <h2>📊 Conclusion</h2>
+  
+  <div class="info-card">
+    <p>
+      Ce projet démontre une compréhension solide des principes de développement web full-stack, 
+      incluant l'architecture MVC, la sécurité des applications web, et la création d'interfaces 
+      utilisateur modernes sans dépendances externes. L'utilisation du français pour tous les 
+      commentaires et noms de variables montre une attention particulière aux conventions de code 
+      et à la maintenabilité.
+    </p>
+    <p style="margin-top: 1rem;">
+      Le prototype est <strong>entièrement fonctionnel, sécurisé, et prêt pour la production</strong> 
+      dans un environnement de démonstration. Tous les objectifs du TP8 ont été atteints avec succès.
+    </p>
+  </div>
+
+  <hr style="margin: 3rem 0; border: 2px solid #E5E7EB;">
+  
+  <div style="text-align: center; color: #6B7280; padding: 2rem 0;">
+    <p><strong>Rapport généré automatiquement</strong></p>
+    <p>TP8 - Projet MicroBlog | Web Development | ${new Date().toLocaleDateString('fr-FR')}</p>
+  </div>
+</body>
+</html>
+`;
+
+// Write the HTML report
+const outputPath = path.join(__dirname, 'REPORT.html');
+fs.writeFileSync(outputPath, htmlReport);
+
+console.log('✅ Report generated successfully: REPORT.html');
+console.log('📄 To convert to PDF, open REPORT.html in a browser and use Print to PDF');
