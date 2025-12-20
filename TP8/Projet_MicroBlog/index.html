@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MicroBlog - Prototype</title>
+    <style>
+        /* Réinitialisation et styles de base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", system-ui, sans-serif;
+            background-color: #ffffff;
+            color: #1a1a1a;
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        /* Conteneur principal centré */
+        .conteneur-principal {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* En-tête */
+        .en-tete {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e5e5e5;
+        }
+
+        .en-tete h1 {
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 8px;
+        }
+
+        .en-tete p {
+            color: #6b7280;
+            font-size: 1rem;
+        }
+
+        /* Zone de création de post */
+        .zone-creation {
+            background-color: #ffffff;
+            border: 1px solid #e5e5e5;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 32px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .zone-creation h2 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: #1a1a1a;
+        }
+
+        /* Champ de texte pour le post */
+        .champ-post {
+            width: 100%;
+            min-height: 120px;
+            padding: 16px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: inherit;
+            resize: vertical;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            margin-bottom: 16px;
+        }
+
+        .champ-post:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        /* Bouton de soumission */
+        .bouton-soumettre {
+            background-color: #2563eb;
+            color: #ffffff;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 24px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.1s;
+        }
+
+        .bouton-soumettre:hover {
+            background-color: #1d4ed8;
+        }
+
+        .bouton-soumettre:active {
+            transform: scale(0.98);
+        }
+
+        .bouton-soumettre:disabled {
+            background-color: #9ca3af;
+            cursor: not-allowed;
+        }
+
+        /* Zone du fil de posts */
+        .zone-fil {
+            margin-top: 32px;
+        }
+
+        .zone-fil h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #1a1a1a;
+        }
+
+        /* Liste des posts */
+        .liste-posts {
+            list-style: none;
+        }
+
+        /* Carte de post individuel */
+        .carte-post {
+            background-color: #ffffff;
+            border: 1px solid #e5e5e5;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 16px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            transition: box-shadow 0.2s;
+        }
+
+        .carte-post:hover {
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+        }
+
+        .contenu-post {
+            font-size: 1rem;
+            color: #1a1a1a;
+            margin-bottom: 12px;
+            line-height: 1.6;
+            word-wrap: break-word;
+        }
+
+        .horodatage-post {
+            font-size: 0.875rem;
+            color: #6b7280;
+        }
+
+        /* Message d'erreur */
+        .message-erreur {
+            background-color: #fee;
+            border: 1px solid #fcc;
+            color: #c33;
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            display: none;
+        }
+
+        /* Message de chargement */
+        .message-chargement {
+            text-align: center;
+            padding: 40px;
+            color: #6b7280;
+            font-size: 1rem;
+        }
+
+        /* Message "aucun post" */
+        .message-vide {
+            text-align: center;
+            padding: 40px;
+            color: #6b7280;
+            font-size: 1rem;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="conteneur-principal">
+        <!-- En-tête de l'application -->
+        <header class="en-tete">
+            <h1>MicroBlog</h1>
+            <p>Partagez vos pensées en quelques mots</p>
+        </header>
+
+        <!-- Zone de création de nouveau post -->
+        <section class="zone-creation">
+            <h2>Nouveau Post</h2>
+            <div id="messageErreur" class="message-erreur"></div>
+            <form id="formulairePost" onsubmit="soumettrePost(event)">
+                <textarea 
+                    id="champContenu" 
+                    class="champ-post" 
+                    placeholder="Qu'avez-vous en tête ?" 
+                    required
+                    maxlength="500"></textarea>
+                <button type="submit" class="bouton-soumettre" id="boutonSoumettre">
+                    Publier
+                </button>
+            </form>
+        </section>
+
+        <!-- Zone du fil d'actualité -->
+        <section class="zone-fil">
+            <h2>Fil d'actualité</h2>
+            <div class="message-chargement" id="messageChargement">Chargement des posts...</div>
+            <div class="message-vide" id="messageVide">Aucun post pour le moment. Soyez le premier à publier !</div>
+            <ul id="listePosts" class="liste-posts"></ul>
+        </section>
+    </div>
+
+    <script>
+        // Configuration de l'API
+        const URL_API = 'api.php';
+
+        /**
+         * Fonction pour charger tous les posts depuis l'API
+         * Appelée au chargement de la page
+         */
+        async function chargerPosts() {
+            const listePostsElement = document.getElementById('listePosts');
+            const messageChargement = document.getElementById('messageChargement');
+            const messageVide = document.getElementById('messageVide');
+
+            try {
+                // Afficher le message de chargement
+                messageChargement.style.display = 'block';
+                messageVide.style.display = 'none';
+                listePostsElement.innerHTML = '';
+
+                // Effectuer la requête GET vers l'API
+                const reponse = await fetch(URL_API, {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+
+                // Vérifier si la réponse est OK
+                if (!reponse.ok) {
+                    throw new Error(`Erreur HTTP: ${reponse.status}`);
+                }
+
+                // Parser la réponse JSON
+                const donnees = await reponse.json();
+
+                // Masquer le message de chargement
+                messageChargement.style.display = 'none';
+
+                // Vérifier si des posts existent
+                if (!donnees.posts || donnees.posts.length === 0) {
+                    messageVide.style.display = 'block';
+                    return;
+                }
+
+                // Afficher chaque post
+                donnees.posts.forEach(post => {
+                    afficherPost(post);
+                });
+
+            } catch (erreur) {
+                // Gestion des erreurs
+                console.error('Erreur lors du chargement des posts:', erreur);
+                messageChargement.style.display = 'none';
+                afficherErreur('Impossible de charger les posts. Veuillez réessayer plus tard.');
+            }
+        }
+
+        /**
+         * Fonction pour soumettre un nouveau post
+         * Gère la soumission du formulaire sans rechargement de page
+         */
+        async function soumettrePost(evenement) {
+            // Empêcher le rechargement de la page
+            evenement.preventDefault();
+
+            const champContenu = document.getElementById('champContenu');
+            const boutonSoumettre = document.getElementById('boutonSoumettre');
+            const contenu = champContenu.value.trim();
+
+            // Validation côté client
+            if (!contenu) {
+                afficherErreur('Veuillez entrer du contenu pour votre post.');
+                return;
+            }
+
+            try {
+                // Désactiver le bouton pendant la soumission
+                boutonSoumettre.disabled = true;
+                boutonSoumettre.textContent = 'Publication...';
+                cacherErreur();
+
+                // Préparer les données à envoyer
+                const donneesPost = {
+                    contenu: contenu
+                };
+
+                // Effectuer la requête POST vers l'API
+                const reponse = await fetch(URL_API, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify(donneesPost)
+                });
+
+                // Vérifier si la réponse est OK
+                if (!reponse.ok) {
+                    throw new Error(`Erreur HTTP: ${reponse.status}`);
+                }
+
+                // Parser la réponse JSON
+                const resultat = await reponse.json();
+
+                // Vérifier si la création a réussi
+                if (resultat.success && resultat.post) {
+                    // Masquer le message "aucun post"
+                    document.getElementById('messageVide').style.display = 'none';
+
+                    // Ajouter le nouveau post en haut de la liste
+                    afficherPost(resultat.post, true);
+
+                    // Réinitialiser le formulaire
+                    champContenu.value = '';
+                } else {
+                    throw new Error(resultat.message || 'Erreur lors de la création du post');
+                }
+
+            } catch (erreur) {
+                // Gestion des erreurs
+                console.error('Erreur lors de la soumission du post:', erreur);
+                afficherErreur('Impossible de publier votre post. Veuillez réessayer.');
+            } finally {
+                // Réactiver le bouton
+                boutonSoumettre.disabled = false;
+                boutonSoumettre.textContent = 'Publier';
+            }
+        }
+
+        /**
+         * Fonction pour afficher un post dans le DOM
+         * @param {Object} post - L'objet post à afficher
+         * @param {Boolean} prepend - Si true, ajoute le post en haut de la liste
+         */
+        function afficherPost(post, prepend = false) {
+            const listePostsElement = document.getElementById('listePosts');
+
+            // Créer les éléments HTML pour le post
+            const elementPost = document.createElement('li');
+            elementPost.className = 'carte-post';
+
+            const contenuPost = document.createElement('div');
+            contenuPost.className = 'contenu-post';
+            contenuPost.textContent = post.contenu;
+
+            const horodatagePost = document.createElement('div');
+            horodatagePost.className = 'horodatage-post';
+            horodatagePost.textContent = formaterDate(post.horodatage);
+
+            // Assembler les éléments
+            elementPost.appendChild(contenuPost);
+            elementPost.appendChild(horodatagePost);
+
+            // Ajouter à la liste (en haut ou en bas)
+            if (prepend) {
+                listePostsElement.insertBefore(elementPost, listePostsElement.firstChild);
+            } else {
+                listePostsElement.appendChild(elementPost);
+            }
+        }
+
+        /**
+         * Fonction pour formater une date en format lisible
+         * @param {String} horodatage - La date au format ISO
+         * @returns {String} - Date formatée
+         */
+        function formaterDate(horodatage) {
+            const date = new Date(horodatage);
+            const maintenant = new Date();
+            const diffMs = maintenant - date;
+            const diffMinutes = Math.floor(diffMs / 60000);
+
+            // Affichage relatif pour les posts récents
+            if (diffMinutes < 1) {
+                return 'À l\'instant';
+            } else if (diffMinutes < 60) {
+                return `Il y a ${diffMinutes} minute${diffMinutes > 1 ? 's' : ''}`;
+            } else if (diffMinutes < 1440) {
+                const diffHeures = Math.floor(diffMinutes / 60);
+                return `Il y a ${diffHeures} heure${diffHeures > 1 ? 's' : ''}`;
+            } else {
+                // Format date complète
+                return date.toLocaleDateString('fr-FR', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+            }
+        }
+
+        /**
+         * Fonction pour afficher un message d'erreur
+         * @param {String} message - Le message d'erreur à afficher
+         */
+        function afficherErreur(message) {
+            const messageErreur = document.getElementById('messageErreur');
+            messageErreur.textContent = message;
+            messageErreur.style.display = 'block';
+
+            // Masquer automatiquement après 5 secondes
+            setTimeout(() => {
+                cacherErreur();
+            }, 5000);
+        }
+
+        /**
+         * Fonction pour cacher le message d'erreur
+         */
+        function cacherErreur() {
+            const messageErreur = document.getElementById('messageErreur');
+            messageErreur.style.display = 'none';
+        }
+
+        // Charger les posts au chargement de la page
+        document.addEventListener('DOMContentLoaded', () => {
+            chargerPosts();
+        });
+    </script>
+</body>
+</html>
