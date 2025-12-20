@@ -47,7 +47,12 @@ class MicroBlogController {
         if (!file_exists($this->fichierDonnees)) {
             // Créer un nouveau fichier avec un tableau vide
             $donneesInitiales = json_encode([], JSON_PRETTY_PRINT);
-            file_put_contents($this->fichierDonnees, $donneesInitiales);
+            $resultat = file_put_contents($this->fichierDonnees, $donneesInitiales);
+            
+            // Vérifier que l'écriture a réussi
+            if ($resultat === false) {
+                throw new Exception('Impossible de créer le fichier de données. Vérifiez les permissions.');
+            }
         }
     }
     
@@ -62,11 +67,26 @@ class MicroBlogController {
      * @return array Tableau de posts
      */
     private function chargerPosts() {
+        // Vérifier que le fichier existe
+        if (!file_exists($this->fichierDonnees)) {
+            return [];
+        }
+        
         // Lire le contenu du fichier
         $contenuFichier = file_get_contents($this->fichierDonnees);
         
+        // Vérifier que la lecture a réussi
+        if ($contenuFichier === false) {
+            throw new Exception('Impossible de lire le fichier de données.');
+        }
+        
         // Décoder le JSON en tableau associatif
         $posts = json_decode($contenuFichier, true);
+        
+        // Vérifier que le décodage a réussi
+        if ($posts === null && json_last_error() !== JSON_ERROR_NONE) {
+            throw new Exception('Erreur de décodage JSON: ' . json_last_error_msg());
+        }
         
         // Retourner un tableau vide si le décodage échoue
         return is_array($posts) ? $posts : [];
@@ -87,8 +107,20 @@ class MicroBlogController {
         // Encoder les posts en JSON avec formatage
         $donneesJson = json_encode($posts, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
         
+        // Vérifier que l'encodage a réussi
+        if ($donneesJson === false) {
+            throw new Exception('Erreur d\'encodage JSON: ' . json_last_error_msg());
+        }
+        
         // Écrire dans le fichier
-        return file_put_contents($this->fichierDonnees, $donneesJson) !== false;
+        $resultat = file_put_contents($this->fichierDonnees, $donneesJson);
+        
+        // Vérifier que l'écriture a réussi
+        if ($resultat === false) {
+            throw new Exception('Impossible d\'écrire dans le fichier de données. Vérifiez les permissions ou l\'espace disque.');
+        }
+        
+        return true;
     }
     
     /**
@@ -154,8 +186,9 @@ class MicroBlogController {
         $contenuNettoye = htmlspecialchars($contenu, ENT_QUOTES, 'UTF-8');
         
         // Créer un nouveau post avec un ID unique et un horodatage
+        // Utilisation de random_bytes pour une génération d'ID plus sécurisée
         $nouveauPost = [
-            'id' => uniqid('post_', true),
+            'id' => 'post_' . bin2hex(random_bytes(16)),
             'contenu' => $contenuNettoye,
             'horodatage' => date('c') // Format ISO 8601
         ];
